@@ -2275,7 +2275,7 @@
 		showLoadIndicator();
 		var q = $('#q').val();
 		History.pushState({q: q}, "Suche nach " + q, q);
-		var url = 'http://openorgdata.sendung.de/';
+		var url = 'http://openorgdata.sendung.de/api/';
 		var settings = {
 			data: {
 				q: q

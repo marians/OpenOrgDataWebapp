@@ -18,6 +18,10 @@
 		width: 700px;
 		height: 700px;
 	}
+	#footer {
+		margin-top: 4em;
+		font-size: 90%;
+	}
 	</style>
 </head>
 <body>
@@ -25,34 +29,12 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="span12">
-				<form method="GET" action="/" id="searchform">
-					<div class="input-append">
-						<input class="span3" id="q" name="q" type="text">
-						<button class="btn" type="button" id="searchbutton">Suche</button>
-					</div>
-					<span id="numhits"></span>
-				</form>
-			</div>
-		</div>
+			
+			<div class="span7">
 
-		<div class="row">
-			<div class="span12" id="wordcloud">
-				
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="span12" id="states">
-				
-			</div>
-		</div>
-
-		<!--<embed src="img/de-states.svg" type="image/svg+xml" style="height: 800px; width: 800px"/>-->
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="327px"
-	 height="430.5px" viewBox="542.5 0 327 430.5" enable-background="new 542.5 0 327 430.5" xml:space="preserve">
-<g id="Ebene_1">
-	<path id="bw" fill="#F7FFF0" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" d="M649.628,388.791l-0.138-0.215
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="327px" height="430.5px" viewBox="542.5 0 327 430.5" enable-background="new 542.5 0 327 430.5" xml:space="preserve">
+					<g id="Ebene_1">
+						<path id="bw" fill="#F7FFF0" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" d="M649.628,388.791l-0.138-0.215
 		l-0.389,0.105l-0.188,0.205l-0.229-0.201l-0.488,0.054l-0.001,0.156l0.324,0.315l-0.006,0.249l-0.164,0.206l-0.298,0.062
 		l0.051,0.313l0.417,0.024l0.52-0.438l0.153-0.014l0.529,0.26l0.379-0.112l-0.296-0.265L649.628,388.791z M698.099,383.569
 		l0.186-0.386l-0.572-0.37l-0.385-0.557l0.182-0.386l-0.196-0.375l-0.364,0.58l-0.193-0.19l0.556-0.582l-0.006-0.377l-0.748,0.399
@@ -186,7 +168,7 @@
 		l-0.013-0.569l-0.193-0.183l0.377-0.395l0.182-0.387l-0.377,0.012l-0.198-0.375l-0.382-0.373l-0.003-0.192l0.189-0.194
 		l-0.005-0.384l-0.191,0.001l-0.005-0.376l0.183-0.579l-0.196-0.382l-1.134-0.542l0.184-0.195l-0.19-0.375l-0.191,0.002
 		l-0.005-0.377l0.56-0.398l-0.006-0.376l0.379,0.181l0.563-0.014l-0.008-0.577L698.099,383.569z"/>
-	<path id="by" fill="#F7FFF0" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" d="M754.402,249.432l-0.385,0.02
+						<path id="by" fill="#F7FFF0" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" d="M754.402,249.432l-0.385,0.02
 		l-0.369,0.397l-0.565,0.02l0.003,0.192l-0.562,0.589l-0.376,0.013l-0.56,0.404l-0.19,0.006l-0.183,0.199l-0.191,0.006l-0.002-0.192
 		l0.37-0.389l-0.192-0.186l0.003,0.192l-0.382,0.013l-0.579-0.734l-0.384-0.179l-0.189,0.014l0.001,0.185l-0.189,0.006l0.007,0.192
 		l-0.188,0.006l-0.384-0.173l0.003,0.186l0.385,0.364l-0.376,0.02l-0.197-0.186l-0.19,0.006l-0.183,0.198l-0.189,0.006l-0.188,0.198
@@ -2180,43 +2162,69 @@
 		l-0.388-0.368l-0.026-0.952l-0.386-0.368l0.169-0.771l0.191-0.004l0.194,0.188l0.942-0.029l0.184-0.196l-0.012-0.569l-0.38,0.009
 		l-0.381-0.176l0.369-0.393l-0.379,0.009l-0.369,0.392l-0.376,0.009l-0.006-0.192l-0.189,0.012l-0.586-0.748l-0.189-0.188
 		l-0.57,0.013l-0.555,0.58l-0.195-0.187l-0.016-0.76l-1.139,0.01L715.428,188.613z"/>
-</g>
-<g id="circles">
-	
-		<circle id="circle_x5F_hb" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="651.048" cy="114.168" r="24.747"/>
-	
-		<circle id="circle_x5F_ni" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="687.729" cy="141.435" r="24.747"/>
-	
-		<circle id="circle_x5F_nw" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="608.698" cy="197.342" r="24.747"/>
-	
-		<circle id="circle_x5F_sh" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="681" cy="53.525" r="24.747"/>
-	
-		<circle id="circle_x5F_mv" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="766.994" cy="74.859" r="24.747"/>
-	
-		<circle id="circle_x5F_bb" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="819.487" cy="166.181" r="24.747"/>
-	
-		<circle id="circle_x5F_be" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="794.741" cy="138.915" r="24.747"/>
-	
-		<circle id="circle_x5F_st" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="742.247" cy="169.944" r="24.747"/>
-	
-		<circle id="circle_x5F_sn" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="802.049" cy="219.438" r="24.747"/>
-	
-		<circle id="circle_x5F_th" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="720.608" cy="227.842" r="24.747"/>
-	
-		<circle id="circle_x5F_he" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="659.223" cy="243.817" r="24.747"/>
-	
-		<circle id="circle_x5F_rp" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="607.015" cy="264.991" r="24.747"/>
-	
-		<circle id="circle_x5F_sl" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="599.44" cy="307.331" r="24.747"/>
-	
-		<circle id="circle_x5F_bw" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="658.877" cy="349.712" r="24.747"/>
-	
-		<circle id="circle_x5F_by" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="750.167" cy="324.965" r="24.747"/>
-	
-		<circle id="circle_x5F_hh" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="692.753" cy="94.886" r="24.747"/>
-</g>
-</svg>
+					</g>
+					<g id="circles">
+					
+						<circle id="circle_x5F_hb" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="651.048" cy="114.168" r="24.747"/>
+					
+						<circle id="circle_x5F_ni" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="687.729" cy="141.435" r="24.747"/>
+					
+						<circle id="circle_x5F_nw" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="608.698" cy="197.342" r="24.747"/>
+					
+						<circle id="circle_x5F_sh" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="681" cy="53.525" r="24.747"/>
+					
+						<circle id="circle_x5F_mv" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="766.994" cy="74.859" r="24.747"/>
+					
+						<circle id="circle_x5F_bb" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="819.487" cy="166.181" r="24.747"/>
+					
+						<circle id="circle_x5F_be" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="794.741" cy="138.915" r="24.747"/>
+					
+						<circle id="circle_x5F_st" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="742.247" cy="169.944" r="24.747"/>
+					
+						<circle id="circle_x5F_sn" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="802.049" cy="219.438" r="24.747"/>
+					
+						<circle id="circle_x5F_th" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="720.608" cy="227.842" r="24.747"/>
+					
+						<circle id="circle_x5F_he" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="659.223" cy="243.817" r="24.747"/>
+					
+						<circle id="circle_x5F_rp" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="607.015" cy="264.991" r="24.747"/>
+					
+						<circle id="circle_x5F_sl" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="599.44" cy="307.331" r="24.747"/>
+					
+						<circle id="circle_x5F_bw" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="658.877" cy="349.712" r="24.747"/>
+					
+						<circle id="circle_x5F_by" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="750.167" cy="324.965" r="24.747"/>
+					
+						<circle id="circle_x5F_hh" opacity="0.7" fill="#FF295B" stroke="#969696" stroke-width="0.25" stroke-linejoin="round" cx="692.753" cy="94.886" r="24.747"/>
+					</g>
+				</svg>
+			</div>
+			<div class="span5">
 
+				<div class="row">
+					<form method="GET" action="/" id="searchform">
+						<div class="input-append">
+							<input class="span3" id="q" name="q" type="text">
+							<button class="btn" type="button" id="searchbutton">Suche</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="row">
+					<span id="numhits"></span>
+				</div>
+
+				<div class="row" id="wordcloud"></div>
+
+				<div class="row" id="states"></div>
+			</div>
+		</div>
+
+		<div class="row" id="footer">
+			<div class="well">
+				Entstanden beim <a href="http://opendataday.koeln.de/">Open Data Day Köln</a>. Basierend auf leider nicht offenen Daten. Gemacht von Marian Steinbach, Marcel Belledin, Saul Lozano, Fabian Hanneforth.
+			</div>
+		</div>
 	</div>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -2277,7 +2285,7 @@
 		showLoadIndicator();
 		var q = $('#q').val();
 		_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
-		History.pushState({q: q}, "Suche nach " + q, q);
+		//History.pushState({q: q}, "Suche nach " + q, q);
 		var url = 'http://openorgdata.sendung.de/api/';
 		var settings = {
 			data: {

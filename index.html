@@ -2344,11 +2344,10 @@
 	 */
 	function showStatesData(data) {
 		$('#states').empty();
-		console.log(data.terms);
+		resetStateCircles();
 		if (data.terms.length == 0) return;
 		var maxValue = data.terms[0].count;
 		var maxSize = 300;
-		resetStateCircles();
 		var size = 0;
 		$.each(data.terms, function(i, term){
 			size = Math.sqrt((term.count / maxValue) * maxSize);

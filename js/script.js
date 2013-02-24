@@ -33,8 +33,13 @@ $(document).ready(function(){
 		});
 	}
 
+	// Erste Suche
 	var q = getURLParam('q');
-	submitSearch(q);
+	if (q !== '' && q !== null && q !== undefined) {
+		submitSearch(q);
+	} else {
+		submitSearch('');
+	}
 });
 
 var state_ids = {
@@ -58,9 +63,11 @@ var state_ids = {
 
 function submitSearch(q) {
 	showLoadIndicator();
-	$('#q').val(q);
-	_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
-	History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
+	if (q !== '') {
+		$('#q').val(q);
+		_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
+		History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
+	}
 	var url = 'http://openorgdata.sendung.de/api/';
 	var settings = {
 		data: {

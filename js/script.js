@@ -123,7 +123,7 @@ function showWordCloud(data) {
 	var el;
 	$.each(data.terms, function(i,term){
 		size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + 100;
-		el = $(document.createElement('span')).text(term.term);
+		el = $(document.createElement('span')).text(term.term).css('font-size', size + '%').attr('title',  term.count + ' Einträge');
 		$('#wordcloudinner').append(el);
 		//$('#wordcloudinner').append('<span style="font-size: ' + size + '%" title="' + term.count + ' Einträge">' + term.term + '</span> ');
 	});

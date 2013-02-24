@@ -66,7 +66,6 @@ var state_ids = {
 function submitSearch(q) {
 	if ((lastSearch === null) || (microTime() - lastSearch) > 0.3) {
 		lastSearch = microTime();
-		console.log('lastSearch:', lastSearch);
 		showLoadIndicator();
 		if (q !== '') {
 			$('#q').val(q);
@@ -145,6 +144,7 @@ function showStatesData(data) {
 	var eintrag = 'Einträge';
 	$.each(data.terms, function(i, term){
 		size = Math.sqrt((term.count / maxValue) * maxSize);
+		console.log(term.count, maxValue, size);
 		$('#circle_x5F_' + state_ids[term.term]).attr('r', size);
 		if (term.count == 1) {
 			eintrag = 'Eintrag';

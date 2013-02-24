@@ -34,9 +34,7 @@ $(document).ready(function(){
 	}
 
 	var q = getURLParam('q');
-	if (q !== '' && q !== null) {
-		submitSearch(q);
-	}
+	submitSearch(q);
 });
 
 var state_ids = {

@@ -33,6 +33,12 @@ $(document).ready(function(){
 			'cookie_domain' : 'openorgdata.sendung.de'
 		});
 	}
+
+	var q = getURLParam('q');
+	if (q !== '') {
+		$('#q').val(q);
+        submitSearch();
+	}
 });
 
 var state_ids = {
@@ -165,4 +171,16 @@ function numberFormat(nStr) {
 		x1 = x1.replace(rgx, '$1' + '.' + '$2');
 	}
 	return x1 + x2;
+}
+
+function getURLParam(name) {
+	//name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	var regexS = "[\\?&]" + name + "=([^&#]*)";
+	var regex = new RegExp(regexS);
+	var results = regex.exec(window.location.search);
+	if (results === null) {
+		return "";
+	} else {
+		return decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 }

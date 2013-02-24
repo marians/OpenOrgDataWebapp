@@ -127,7 +127,7 @@ function showStatesData(data) {
 	resetStateCircles();
 	if (data.terms.length === 0) return;
 	var maxValue = data.terms[0].count;
-	var maxSize = 300;
+	var maxSize = 500;
 	var size = 0;
 	var eintrag = 'Einträge';
 	$.each(data.terms, function(i, term){

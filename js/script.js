@@ -65,11 +65,12 @@ var state_ids = {
 
 function submitSearch(q) {
 	if ((lastSearch === null) || (microTime() - lastSearch) > 0.3) {
+		lastSearch = microTime();
+		console.log('lastSearch:', lastSearch);
 		showLoadIndicator();
 		if (q !== '') {
 			$('#q').val(q);
 			_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
-			History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
 		}
 		var url = 'http://openorgdata.sendung.de/api/';
 		var settings = {
@@ -83,9 +84,9 @@ function submitSearch(q) {
 				showWordCloud(data.facets.nameterms);
 				showStatesData(data.facets.states);
 				showNumHits(data.hits.total);
+				History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
 			}
 		};
-		lastSearch = microTime();
 		$.ajax(url, settings);
 	}
 }

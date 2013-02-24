@@ -111,9 +111,12 @@ function showWordCloud(data) {
 	var maxCount = data.terms[0].count;
 	var minCount = data.terms[ data.terms.length - 1 ].count;
 	var size = 0;
+	var el;
 	$.each(data.terms, function(i,term){
 		size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + 100;
-		$('#wordcloudinner').append('<span style="font-size: ' + size + '%" title="' + term.count + ' Einträge">' + term.term + '</span> ');
+		el = $(document.createElement('span')).text(term.term);
+		$('#wordcloudinner').append(el);
+		//$('#wordcloudinner').append('<span style="font-size: ' + size + '%" title="' + term.count + ' Einträge">' + term.term + '</span> ');
 	});
 }
 

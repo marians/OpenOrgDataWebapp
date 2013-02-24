@@ -64,6 +64,7 @@ function submitSearch() {
 		data: {
 			q: q
 		},
+		cache: true,
 		dataType: 'jsonp',
 		success: function(data) {
 			//console.log(data);

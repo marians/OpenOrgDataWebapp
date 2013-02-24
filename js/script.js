@@ -1,5 +1,5 @@
 // time of last search
-var lastSearch;
+var lastSearch = null;
 
 (function(window,undefined){
 
@@ -64,7 +64,7 @@ var state_ids = {
 };
 
 function submitSearch(q) {
-	if ((lastSearch === null) || (microTime() - lastSearch) > 300) {
+	if ((lastSearch === null) || (microTime() - lastSearch) > 0.3) {
 		showLoadIndicator();
 		if (q !== '') {
 			$('#q').val(q);

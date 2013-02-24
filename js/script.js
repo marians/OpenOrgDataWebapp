@@ -12,6 +12,7 @@
         var State = History.getState();
         //console.log(State.data, State.title, State.url);
         $('#q').val(State.data.q);
+        submitSearch();
     });
 
 })(window);
@@ -57,7 +58,7 @@ function submitSearch() {
 	showLoadIndicator();
 	var q = $('#q').val();
 	_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
-	History.pushState({q: q}, "Suche nach " + q, q);
+	History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
 	var url = 'http://openorgdata.sendung.de/api/';
 	var settings = {
 		data: {
@@ -118,9 +119,16 @@ function showStatesData(data) {
 	var maxValue = data.terms[0].count;
 	var maxSize = 300;
 	var size = 0;
+	var eintrag = 'Einträge';
 	$.each(data.terms, function(i, term){
 		size = Math.sqrt((term.count / maxValue) * maxSize);
 		$('#circle_x5F_' + state_ids[term.term]).attr('r', size);
+		if (term.count == 1) {
+			eintrag = 'Eintrag';
+		} else {
+			eintrag = 'Einträge';
+		}
+		$('#circle_x5F_' + state_ids[term.term] + ' title').text(term.count + ' ' + eintrag);
 	});
 }
 
@@ -136,6 +144,9 @@ function showNumHits(data) {
 function resetStateCircles() {
 	$.each(state_ids, function(i, id){
 		$('#circle_x5F_' + id).attr('r', '0');
+		if ($('#circle_x5F_' + id + ' title').length === 0) {
+			$('#circle_x5F_' + id).append('<title></title>');
+		}
 	});
 }
 

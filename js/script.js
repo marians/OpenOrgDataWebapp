@@ -123,7 +123,11 @@ function showWordCloud(data) {
 	var el;
 	$.each(data.terms, function(i,term){
 		size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + 100;
-		el = $(document.createElement('span')).text(term.term).css('font-size', size + '%').attr('title',  term.count + ' Einträge');
+		el = $(document.createElement('a')).text(term.term).css('font-size', size + '%').attr('title',  term.count + ' Einträge').attr('href', '#');
+		el.click(function(evt){
+			evt.preventDefault();
+			submitSearch(term.term);
+		});
 		$('#wordcloudinner').append(el);
 		//$('#wordcloudinner').append('<span style="font-size: ' + size + '%" title="' + term.count + ' Einträge">' + term.term + '</span> ');
 	});

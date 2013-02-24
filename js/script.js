@@ -11,8 +11,7 @@
     History.Adapter.bind(window,'statechange',function() {
         var State = History.getState();
         //console.log(State.data, State.title, State.url);
-        $('#q').val(State.data.q);
-        submitSearch();
+        submitSearch(State.data.q);
     });
 
 })(window);
@@ -20,11 +19,11 @@
 $(document).ready(function(){
 	$('#searchform').submit(function(evt){
 		evt.preventDefault();
-		submitSearch();
+		submitSearch($('#q').val());
 	});
 	$('#searchbutton').click(function(evt){
 		evt.preventDefault();
-		submitSearch();
+		submitSearch($('#q').val());
 	});
 	resetStateCircles();
 
@@ -36,8 +35,7 @@ $(document).ready(function(){
 
 	var q = getURLParam('q');
 	if (q !== '') {
-		$('#q').val(q);
-        submitSearch();
+		submitSearch(q);
 	}
 });
 
@@ -60,9 +58,9 @@ var state_ids = {
 	'Thüringen': 'th'
 };
 
-function submitSearch() {
+function submitSearch(q) {
 	showLoadIndicator();
-	var q = $('#q').val();
+	$('#q').val(q);
 	_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
 	History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
 	var url = 'http://openorgdata.sendung.de/api/';

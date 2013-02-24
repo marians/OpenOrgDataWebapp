@@ -1,3 +1,5 @@
+// time of last search
+var lastSearch;
 
 (function(window,undefined){
 
@@ -62,27 +64,34 @@ var state_ids = {
 };
 
 function submitSearch(q) {
-	showLoadIndicator();
-	if (q !== '') {
-		$('#q').val(q);
-		_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
-		History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
-	}
-	var url = 'http://openorgdata.sendung.de/api/';
-	var settings = {
-		data: {
-			q: q
-		},
-		cache: true,
-		dataType: 'jsonp',
-		success: function(data) {
-			//console.log(data);
-			showWordCloud(data.facets.nameterms);
-			showStatesData(data.facets.states);
-			showNumHits(data.hits.total);
+	if ((lastSearch === null) || (microTime() - lastSearch) > 300) {
+		showLoadIndicator();
+		if (q !== '') {
+			$('#q').val(q);
+			_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
+			History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
 		}
-	};
-	$.ajax(url, settings);
+		var url = 'http://openorgdata.sendung.de/api/';
+		var settings = {
+			data: {
+				q: q
+			},
+			cache: true,
+			dataType: 'jsonp',
+			success: function(data) {
+				//console.log(data);
+				showWordCloud(data.facets.nameterms);
+				showStatesData(data.facets.states);
+				showNumHits(data.hits.total);
+			}
+		};
+		lastSearch = microTime();
+		$.ajax(url, settings);
+	}
+}
+
+function microTime() {
+	return new Date().getTime() + (new Date().getMilliseconds() / 1000.0);
 }
 
 /**

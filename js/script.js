@@ -34,7 +34,7 @@ $(document).ready(function(){
 	}
 
 	var q = getURLParam('q');
-	if (q !== '') {
+	if (q !== '' && q !== null) {
 		submitSearch(q);
 	}
 });

@@ -26,6 +26,12 @@ $(document).ready(function(){
 		submitSearch();
 	});
 	resetStateCircles();
+
+	if ($('#socialshareprivacy').length > 0){
+		$('#socialshareprivacy').socialSharePrivacy({
+			'cookie_domain' : 'openorgdata.sendung.de'
+		});
+	}
 });
 
 var state_ids = {
@@ -86,9 +92,9 @@ function showLoadIndicator() {
  */
 function showWordCloud(data) {
 	$('#wordcloud').empty();
-	$('#wordcloud').append('<div id="wordcloudinner"></div>')
+	$('#wordcloud').append('<div id="wordcloudinner"></div>');
 	//console.log("success:", data);
-	if (data.terms.length == 0) return;
+	if (data.terms.length === 0) return;
 	var minSize = 100;
 	var maxSize = 500;
 	var maxCount = data.terms[0].count;
@@ -108,7 +114,7 @@ function showWordCloud(data) {
 function showStatesData(data) {
 	$('#states').empty();
 	resetStateCircles();
-	if (data.terms.length == 0) return;
+	if (data.terms.length === 0) return;
 	var maxValue = data.terms[0].count;
 	var maxSize = 300;
 	var size = 0;

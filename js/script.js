@@ -83,7 +83,7 @@ function submitSearch(q) {
 				showWordCloud(data.facets.nameterms);
 				showStatesData(data.facets.states);
 				showNumHits(data.hits.total);
-				History.pushState({q: q}, "Suche nach " + q, '?q=' + q);
+				History.pushState({q: q}, "OpenOrgData: " + q, '?q=' + q);
 			}
 		};
 		$.ajax(url, settings);

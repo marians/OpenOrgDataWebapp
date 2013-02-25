@@ -82,7 +82,7 @@ function submitSearch(q) {
 				//console.log(data);
 				showWordCloud(data.facets.nameterms);
 				showStatesData(data.facets.states);
-				showNumHits(data.hits.total);
+				showNumHits(data.hits);
 				History.pushState({q: q}, "OpenOrgData: " + q, '?q=' + q);
 			}
 		};
@@ -139,15 +139,28 @@ function showWordCloud(data) {
  * @param data Result-Objekt von der API
  */
 function showStatesData(data) {
-	//$('#states').empty();
 	resetStateCircles();
 	if (data.terms.length === 0) return;
-	var maxValue = data.terms[0].count;
-	var maxSize = 5000;
+	var maxValue;
+	var useRelativeValues = true;
+	var maxSize;
+	if (useRelativeValues) {
+		maxSize = 5000;
+		maxValue = data.density_max;
+	} else {
+		maxSize = 5000;
+		maxValue = data.terms[0].count;
+	}
 	var size = 0;
+	var val;
 	var eintrag = 'Einträge';
 	$.each(data.terms, function(i, term){
-		size = Math.sqrt((term.count / maxValue) * maxSize);
+		if (useRelativeValues) {
+			val = term.density;
+		} else {
+			val = term.count;
+		}
+		size = Math.sqrt((val / maxValue) * maxSize);
 		$('#circle_x5F_' + state_ids[term.term]).attr('r', size);
 		if (term.count == 1) {
 			eintrag = 'Eintrag';

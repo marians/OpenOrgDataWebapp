@@ -30,6 +30,14 @@
 		margin-top: 4em;
 		font-size: 90%;
 	}
+	#modalbody {
+		max-height: 600px;
+		overflow: auto;
+	}
+	#modalbody h3 {
+		font-size: 15pt;
+		line-height: 19pt;
+	}
 	</style>
 </head>
 <body>
@@ -238,7 +246,7 @@
 
 		<div class="row" id="footer">
 			<div class="well">
-				<p>Basierend auf leider nicht offenen Daten von <a href="http://www.handelsregister.de/" rel="nofollow">www.handelsregister.de</a>. Gemacht beim <a href="http://opendataday.koeln.de/">Open Data Day Köln</a>von Marian Steinbach, Marcel Belledin, Saul Lozano, Timo Stoppacher, mit freundlicher Unterstützung von Roland Gude und Fabian Hanneforth.</p>
+				<p>Basierend auf leider nicht offenen Daten von <a href="http://www.handelsregister.de/" rel="nofollow">www.handelsregister.de</a>. Gemacht beim <a href="http://opendataday.koeln.de/">Open Data Day Köln</a> von Marian Steinbach, Marcel Belledin, Saul Lozano, Timo Stoppacher mit freundlicher Unterstützung von Roland Gude und Fabian Hanneforth.</p>
 
 				<p><a href="#about" data-toggle="modal">Mehr über diese Anwendung</a></p>
 
@@ -252,8 +260,63 @@
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>Über diese Anwendung</h3>
 		</div>
-		<div class="modal-body">
-			<p>One fine body…</p>
+		<div class="modal-body" id="modalbody">
+
+
+
+			<h3>Wie funktioniert&apos;s?</h3>
+
+			<p>Gib einen Begriff in das Suchfeld ein und Du siehst die <strong>Verteilung von Unternehmen und Vereinen</strong> mit diesem Begriff im Namen in Deutschland auf der Landkarte.</p>
+
+			<p>Die <em>Word Cloud</em> liefert außerdem die 50 häufigsten Begriffe innerhalb der Namen, die den gesuchten Begriff enthalten.</p>
+
+			<p>Tipps zur Suche:</p>
+
+			<ul>
+				<li>Groß- und Kleinschreibung spielen keine Rolle.</li>
+				<li>Die Suche findet exakte Übereinstimmung. Wer nach <code>fleischer</code> sucht, findet nur die Einträge, die diesen exakten Begriff im Namen tragen. Eine Suche nach <code>fleischer*</code> findet aber <code>fleischer</code>, <code>fleischerei</code>, <code>fleischereien</code> etc.</li>
+			</ul>
+
+			<h3>Woher stammen die gezeigten Daten?</h3>
+
+			<p>Die Daten stammen aus dem Handelsregister und dem Vereinsregister der Website <a href="http://www.handelsregister.de/" target="_blank" rel="nofolllow">www.handelsregister.de</a>, die vom Justizministerium des Landes Nordrhein-Westfalen betrieben wird.</p>
+
+			<h3>Sind die Rohdaten verfügbar?</h3>
+
+			<p>Leider nein, weder an der Quelle (handelsregister.de), noch hier. Obwohl wir sie haben, möchten wir sie nicht herausgeben, denn der Betreiber von handelsregister.de, das Justizministerium NRW, könnte das als Verletzung von Urheberrechten auffassen.</p>
+
+			<p>Aber natürlich sind wir der Meinung, dass die Rohdaten als Open Data für jeden zur Verfügung stehen sollten. Wir möchten gerne helfen, das Ministerium auf dem politischen Weg dazu zu bringen, die Daten unter einer offenen Lizenz zu veröffentlichen.</p>
+
+			<h3>Warum heißt die Anwendug &raquo;OpenOrgData&laquo;?</h3>
+			
+			<p>Der Name ist aktuell als Apell zu verstehen. Sinngemäß: &raquo;Öffnet die Registerdaten!&laquo;. Die Anwendung soll darüber hinaus ein Beispiel dafür geben, was machbar ist, wenn die Registerdaten für jeden öffentlich zugänglich sind.</p>
+
+			<p>Gerne wird ja mit Verweis auf Web-Anagebote wie handelsregister.de oder unternehmensregister.de behauptet: &raquo;Die Daten sind doch öffentlich, es besteht kein Handlungsbedarf.&laquo; Tatsächlich aber braucht es eine technischen und lizenztechnische Offenheit, damit man mit den Daten wirklich interessante Anwendungen ermöglichen kann. In <a href="http://opencorporates.com/" target="_blank">anderen Ländern</a> ist das übrigens eine Selbstverständlichkeit.</p>
+
+			<h3>Sind die Daten vollständig?</h3>
+
+			<p>Das wissen wir leider nicht, denn uns ist keine Möglichkeit bekannt, das zu überprüfen. Wir glauben, dass alle Einträge, die auf handelsregister.de veröffentlicht werden, auch hier durchsucht werden können.</p>
+
+			<p>Eine Besonderheit gibt es dabei: es sind keine Vereine aus Thüringen zu finden. Die thüringischen Vereinsregistereinträge sind auf handelsregister.de nicht auffindbar und daher auch hier nicht vertreten.</p>
+
+			<h3>Wie aktuell sind die Daten?</h3>
+
+			<p>Die Daten repräsentieren den Stand von Ende 2012.</p>
+
+			<h3>Gibt es eine API?</h3>
+
+			<p>Ja, die wird sich aber in nächster Zeit noch häufiger ändern. Und der Server, auf dem sie läuft, hat sehr begrenzte Ressourcen. Daher wird die API aktuell nicht zur öffentlichen Verwendung empfohlen.</p>
+			<p>Wer damit spielen will, den werden wir jedoch nicht davon abhalten. Endpunkt der API ist <code>http://openorgdata.sendung.de/api/</code>. Es gibt zwei Parameter: <code>q</code> für den Suchbegriff und <code>callback</code> für JSONP-Ausgabe.</p>
+
+			<p>Wenn Ihr die API nutzt, freuen wir uns über Namensnennung (&raquo;OpenOrgData&laquo;) und Verlinkung auf orgdata.sendung.de.</p>
+
+			<h3>Wo kann ich Probleme oder Anregungen melden?</h3>
+
+			<p>Bitte nutze das <a href="https://github.com/marians/OpenOrgDataWebapp/issues">Issue-Tracking in unserem GitHub Repository</a>. Dazu benötigst Du ein GitHub Benutzerkonto.</p>
+
+			<h3>Verantwortlich im Sinne des Telemediengesetzes</h3>
+			<p>Marian Steinbach, Scharrenbroicher Straße 61a, 51503 Rösrath, Tel. 0179 5917086, <a href="mailto:marian@sendung.de">marian@sendung.de</a></p>
+			
 		</div>
 		<div class="modal-footer">
 			<button class="btn" data-dismiss="modal" aria-hidden="true">Schließen</button>

@@ -99,10 +99,10 @@ function microTime() {
  */
 function showLoadIndicator() {
 	$('#wordcloud').empty();
-	$('#states').empty();
+	//$('#states').empty();
 	$('#numhits').empty();
 	$('#wordcloud').append('<div class="loading"><div class="loadinginner">Lade Daten...</div></div>');
-	$('#states').append('<div class="loading"><div class="loadinginner">Lade Daten...</div></div>');
+	//$('#states').append('<div class="loading"><div class="loadinginner">Lade Daten...</div></div>');
 }
 
 /**
@@ -139,7 +139,7 @@ function showWordCloud(data) {
  * @param data Result-Objekt von der API
  */
 function showStatesData(data) {
-	$('#states').empty();
+	//$('#states').empty();
 	resetStateCircles();
 	if (data.terms.length === 0) return;
 	var maxValue = data.terms[0].count;

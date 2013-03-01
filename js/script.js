@@ -168,6 +168,19 @@ function showStatesData(data) {
 			eintrag = 'Einträge';
 		}
 		$('#circle_x5F_' + state_ids[term.term] + ' title').text(term.count + ' ' + eintrag);
+/**
+ * Zeige die Statistik je Bundesland im Tooltip
+ */
+		$.fn.qtip.defaults.style.classes = 'ui-tooltip-default ui-tooltip-shadow';
+
+		$('#circle_x5F_' + state_ids[term.term]).qtip({
+			content: {
+				text: term.count + ' ' + eintrag,
+				title: {
+					text: term.term + ':'
+				}
+			}
+		});
 	});
 }
 

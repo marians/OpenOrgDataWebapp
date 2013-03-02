@@ -2,6 +2,28 @@
 * http://craigsworks.com/projects/qtip2/
 * Copyright (c) 2012 Craig Michael Thompson; Licensed MIT, GPL */
 
+.tooltip{
+        position: absolute;
+          text-align: left;
+        z-index: 10;
+          min-width: auto;
+          max-width: 200px; 
+          height: auto;
+        padding: 8px;
+        min-width: 280px;
+        font-family: "Courier New", monospace;
+        letter-spacing: 4px;
+        font: 14px bold;
+        text-shadow: 0px 0px 0 #111111;
+        line-height: 1.5;
+        word-wrap:break-word;
+        background: Linen;
+        color: gray;
+        border: solid 1px #aaa;
+        border-radius: 8px;
+        opacity: 0;
+}
+
 /* Core qTip styles */
 .ui-tooltip, .qtip{
     position: absolute;

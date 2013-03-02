@@ -171,17 +171,26 @@ function showStatesData(data) {
 /**
  * Zeige die Statistik je Bundesland im Tooltip
  */
-		$.fn.qtip.defaults.style.classes = 'ui-tooltip-default ui-tooltip-shadow';
+		$.fn.qtip.defaults.style.classes = 'ui-tooltip-bootstrap tooltip-shadow';
 
 		$('#circle_x5F_' + state_ids[term.term]).qtip({
 			content: {
 				text: term.count + ' ' + eintrag,
 				title: {
-					text: term.term + ':'
+					text: term.term
+				}
+			},
+			position: {
+				my: 'top rigth', 
+				at: 'top right'
+			},
+			style: { 
+				tip: {
+				corner: false
 				}
 			}
+			});
 		});
-	});
 }
 
 function showNumHits(data) {

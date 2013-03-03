@@ -1,5 +1,6 @@
 // time of last search
 var lastSearch = null;
+var apiUrl = 'http://openorgdata.sendung.de/api/index2.php';
 
 (function(window,undefined){
 
@@ -71,22 +72,23 @@ function submitSearch(q) {
 			$('#q').val(q);
 			_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
 		}
-		var url = 'http://openorgdata.sendung.de/api/';
 		var settings = {
 			data: {
 				q: q
 			},
 			cache: true,
 			dataType: 'jsonp',
+			jsonpCallback: 'cb',
 			success: function(data) {
 				//console.log(data);
 				showWordCloud(data.facets.nameterms);
-				showStatesData(data.facets.states);
+				//showStatesData(data.facets.states);
+				showCountiesData(data.facets.counties);
 				showNumHits(data.hits);
 				History.pushState({q: q}, "OpenOrgData: " + q, '?q=' + q);
 			}
 		};
-		$.ajax(url, settings);
+		$.ajax(apiUrl, settings);
 	}
 }
 
@@ -147,12 +149,10 @@ function showStatesData(data) {
 	if (data.terms.length === 0) return;
 	var maxValue;
 	var useRelativeValues = true;
-	var maxSize;
+	var maxSize = 5000;
 	if (useRelativeValues) {
-		maxSize = 5000;
 		maxValue = data.density_max;
 	} else {
-		maxSize = 5000;
 		maxValue = data.terms[0].count;
 	}
 	var size = 0;
@@ -196,7 +196,42 @@ function showStatesData(data) {
 		});
 		*/
 	});
+}
 
+/**
+ * Zeige die Statistik je Bundesland
+ *
+ * @param data Result-Objekt von der API
+ */
+function showCountiesData(data) {
+	resetCountiesCircles();
+	if (data.terms.length === 0) return;
+	var maxValue;
+	var useRelativeValues = true;
+	var maxSize = 60;
+	if (useRelativeValues) {
+		maxValue = data.density_max;
+	} else {
+		maxValue = data.terms[0].count;
+	}
+	var size = 0;
+	var val;
+	var eintrag = 'Einträge';
+	$.each(data.terms, function(i, term){
+		if (useRelativeValues) {
+			val = term.density;
+		} else {
+			val = term.count;
+		}
+		size = Math.sqrt((val / maxValue) * maxSize);
+		$('#circle_x5F_' + term.county_id).attr('r', size);
+		if (term.count == 1) {
+			eintrag = 'Eintrag';
+		} else {
+			eintrag = 'Einträge';
+		}
+		$('#circle_x5F_' + term.county_id + ' title').text(term.count + ' ' + eintrag);
+	});
 }
 
 function showNumHits(data) {
@@ -215,6 +250,10 @@ function resetStateCircles() {
 			$('#circle_x5F_' + id).append('<title></title>');
 		}
 	});
+}
+function resetCountiesCircles() {
+	$('svg circle').attr('r', '0');
+	$('svg circle title').empty();
 }
 
 /**

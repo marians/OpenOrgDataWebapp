@@ -115,15 +115,19 @@ function showWordCloud(data) {
 	$('#wordcloud').append('<div id="wordcloudinner"></div>');
 	//console.log("success:", data);
 	if (data.terms.length === 0) return;
-	var minSize = 100;
-	var maxSize = 500;
+	var minSize = 14;
+	var maxSize = 36;
 	var maxCount = data.terms[0].count;
 	var minCount = data.terms[ data.terms.length - 1 ].count;
 	var size = 0;
 	var el;
 	$.each(data.terms, function(i,term){
-		size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + 100;
-		el = $(document.createElement('a')).text(term.term).css('font-size', size + '%').attr('title',  term.count + ' Einträge').attr('href', '#');
+		//size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + 100;
+		size = ((term.count / (maxCount - minCount)) * (maxSize - minSize)) + minSize;
+		el = $(document.createElement('a'));
+		el.text(term.term).css({'font-size': Math.round(size) + 'px', 'line-height': Math.round(size + 4) + 'px'});
+		el.attr('title',  term.count + ' Einträge');
+		el.attr('href', '#');
 		el.click(function(evt){
 			evt.preventDefault();
 			submitSearch(term.term);
@@ -168,9 +172,9 @@ function showStatesData(data) {
 			eintrag = 'Einträge';
 		}
 		$('#circle_x5F_' + state_ids[term.term] + ' title').text(term.count + ' ' + eintrag);
-/**
- * Zeige die Statistik je Bundesland im Tooltip
- */
+		
+		/*
+		// Zeige die Statistik je Bundesland im Tooltip
 		$.fn.qtip.defaults.style.classes = 'ui-tooltip-bootstrap tooltip-shadow';
 
 		$('#circle_x5F_' + state_ids[term.term]).qtip({
@@ -189,8 +193,10 @@ function showStatesData(data) {
 				corner: false
 				}
 			}
-			});
 		});
+		*/
+	});
+
 }
 
 function showNumHits(data) {

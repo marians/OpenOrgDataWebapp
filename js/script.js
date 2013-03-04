@@ -1,6 +1,12 @@
 // time of last search
 var lastSearch = null;
 
+// currently highlighted circle ID
+var currentHighlight = null;
+
+// search result data
+var resultData = null;
+
 (function(window,undefined){
 
     // Prepare
@@ -42,6 +48,9 @@ $(document).ready(function(){
 	} else {
 		submitSearch('');
 	}
+
+	// Mouse-handler für Tooltip
+	d3.select('svg').on('mousemove', mouseMoveHandler);
 });
 
 var state_ids = {
@@ -62,6 +71,11 @@ var state_ids = {
 	'Schleswig-Holstein': 'sh',
 	'Thüringen': 'th'
 };
+// short versions of long labels
+var labelAbbrev = {
+	'Mecklenburg-Vorpommern': 'Mecklenb.-Vorp.',
+	'Brandenburg': 'Brandenb.'
+};
 
 function submitSearch(q) {
 	if ((lastSearch === null) || (microTime() - lastSearch) > 0.3) {
@@ -79,6 +93,7 @@ function submitSearch(q) {
 			cache: true,
 			dataType: 'jsonp',
 			success: function(data) {
+				resultData = data;
 				//console.log(data);
 				showWordCloud(data.facets.nameterms);
 				showStatesData(data.facets.states);
@@ -143,7 +158,6 @@ function showWordCloud(data) {
  * @param data Result-Objekt von der API
  */
 function showStatesData(data) {
-	resetStateCircles();
 	if (data.terms.length === 0) return;
 	var maxValue;
 	var useRelativeValues = true;
@@ -157,7 +171,7 @@ function showStatesData(data) {
 	}
 	var size = 0;
 	var val;
-	var eintrag = 'Einträge';
+	var statesDone = {};
 	$.each(data.terms, function(i, term){
 		if (useRelativeValues) {
 			val = term.density;
@@ -165,38 +179,25 @@ function showStatesData(data) {
 			val = term.count;
 		}
 		size = Math.sqrt((val / maxValue) * maxSize);
-		$('#circle_x5F_' + state_ids[term.term]).attr('r', size);
-		if (term.count == 1) {
-			eintrag = 'Eintrag';
-		} else {
-			eintrag = 'Einträge';
-		}
-		$('#circle_x5F_' + state_ids[term.term] + ' title').text(term.count + ' ' + eintrag);
-		
-		/*
-		// Zeige die Statistik je Bundesland im Tooltip
-		$.fn.qtip.defaults.style.classes = 'ui-tooltip-bootstrap tooltip-shadow';
-
-		$('#circle_x5F_' + state_ids[term.term]).qtip({
-			content: {
-				text: term.count + ' ' + eintrag,
-				title: {
-					text: term.term
-				}
-			},
-			position: {
-				my: 'top rigth', 
-				at: 'top right'
-			},
-			style: { 
-				tip: {
-				corner: false
-				}
-			}
-		});
-		*/
+		d3.select('#circle_x5F_' + term.state_id)
+			.attr('class', 'active')
+			.transition()
+			.attr('opacity', '0.7')
+			.attr('r', size);
+		statesDone[term.state_id] = true;
 	});
-
+	// set rest to zero size and inactive
+	$.each(state_ids, function(i, state_id){
+		if (!statesDone[state_id]) {
+			d3.select('#circle_x5F_' + state_id)
+				.transition()
+				.attr('r', '0')
+				.attr('opacity', '0')
+				.attr('class', 'inactive');
+				
+		}
+	});
+	
 }
 
 function showNumHits(data) {
@@ -209,12 +210,7 @@ function showNumHits(data) {
 }
 
 function resetStateCircles() {
-	$.each(state_ids, function(i, id){
-		$('#circle_x5F_' + id).attr('r', '0');
-		if ($('#circle_x5F_' + id + ' title').length === 0) {
-			$('#circle_x5F_' + id).append('<title></title>');
-		}
-	});
+	d3.selectAll('svg circle').attr('class', 'inactive');
 }
 
 /**
@@ -244,3 +240,107 @@ function getURLParam(name) {
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 }
+
+/**
+ * Decides whether or not to show a tooltip, and if yes,
+ * which one and where.
+ */
+function mouseMoveHandler() {
+	var mpos = d3.mouse(this);
+    //console.log(coordinates);
+    var maxDist = 200;
+    var nearestDist = 1000000;
+    var nearestId = null;
+    var circle;
+	d3.selectAll('svg circle.active').each(function(){
+		circle = d3.select(this);
+		dist = distance(mpos[0], mpos[1], circle.attr('cx'), circle.attr('cy'));
+		//console.log(circle.attr('id'), dist);
+		if (dist < maxDist && dist < nearestDist) {
+			nearestDist = dist;
+			nearestId = circle.attr('id');
+		}
+	});
+	//console.log('mouse:', mpos, 'nearest:', nearestId, 'distance:', nearestDist);
+	if (nearestId != currentHighlight) {
+		setCurrentHighlight(nearestId);
+	}
+	
+}
+
+/** Calculate distance between two points
+ */
+function distance(x1, y1, x2, y2) {
+	var xdiff = Math.abs(x1 - x2);
+	var ydiff = Math.abs(y1 - y2);
+	return Math.round(Math.sqrt(xdiff*xdiff + ydiff*ydiff));
+}
+
+/**
+ * Set currently highlighted circle to the given ID.
+ * If id is null, highlight is turned off.
+ */
+function setCurrentHighlight(hlid) {
+	//console.log('setCurrentHighlight called with id', hlid);
+	// reset currently highlighted circle
+	if (currentHighlight) {
+		d3.select('#' + currentHighlight).transition().attr('opacity', '0.7');
+	}
+	// set the global var
+	currentHighlight = hlid;
+	if (currentHighlight === null) {
+		d3.select('svg text.hllabel').remove();
+		return;
+	}
+	// highlight circle and draw stuff
+	var hl = d3.select('#' + currentHighlight);
+	hl.transition().attr('opacity', '1.0');
+	// flag position
+	var idparts = currentHighlight.split('x5F_');
+	var x = hl.attr('cx');
+	var y = hl.attr('cy');
+	var r = hl.attr('r');
+	y = y - r - 10;
+	var label = d3.select('svg text.hllabel');
+	if (label[0][0]) {
+		// already exists
+		label.text(getLabelForId(idparts[1]));
+		// move to new position
+		label.transition().duration(250)
+			.attr('dx', x).attr('dy', y);
+	} else {
+		// create label
+		d3.select('svg').append('text')
+			.attr('dx', x).attr('dy', y)
+			.attr('class', 'hllabel')
+			.text(getLabelForId(idparts[1]));
+	}
+
+}
+
+/**
+ * Return the name for the given location identifier
+ * (e.g. "th" for Thüringen)
+ */
+function getLabelForId(idstr) {
+	var name = '';
+	var value = '';
+	for (var i in state_ids) {
+		//console.log(idstr, i, state_ids[i]);
+		if (state_ids[i] == idstr) {
+			name = i;
+		}
+	}
+	var el;
+	for (var t in resultData.facets.states.terms) {
+		el = resultData.facets.states.terms[t];
+		if (el.state_id == idstr) {
+			value = el.count + " aus " + el.all;
+		}
+	}
+	if (labelAbbrev[name]) {
+		name = labelAbbrev[name];
+	}
+	return name + ': ' + value;
+}
+

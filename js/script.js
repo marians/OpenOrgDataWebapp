@@ -74,7 +74,7 @@ var state_ids = {
 // short versions of long labels
 var labelAbbrev = {
 	'Mecklenburg-Vorpommern': 'Mecklenb.-Vorp.',
-	'Brandenburg': 'Brandenb.'
+	'Brandenburg': 'BB'
 };
 
 function submitSearch(q) {
@@ -289,7 +289,7 @@ function setCurrentHighlight(hlid) {
 	// set the global var
 	currentHighlight = hlid;
 	if (currentHighlight === null) {
-		d3.select('svg text.hllabel').remove();
+		d3.select('svg g#tooltip').remove();
 		return;
 	}
 	// highlight circle and draw stuff
@@ -300,20 +300,37 @@ function setCurrentHighlight(hlid) {
 	var x = hl.attr('cx');
 	var y = hl.attr('cy');
 	var r = hl.attr('r');
-	y = y - r - 10;
-	var label = d3.select('svg text.hllabel');
-	if (label[0][0]) {
+	y = y - r - 35;
+	var tooltip = d3.select('svg g#tooltip');
+	var label;
+	var rect = d3.select('g#tooltip rect.hllabel');
+	var textWidth = 100;
+	if (tooltip[0][0]) {
 		// already exists
+		label = tooltip.select('text.hllabel');
 		label.text(getLabelForId(idparts[1]));
+		textWidth = label.node().getComputedTextLength();
+		rect.attr('width', textWidth + 50);
 		// move to new position
-		label.transition().duration(250)
-			.attr('dx', x).attr('dy', y);
+		tooltip.transition().attr('transform', function(d) {
+			return "translate(" + x + "," + y + ")";
+		});
 	} else {
 		// create label
-		d3.select('svg').append('text')
-			.attr('dx', x).attr('dy', y)
+		tooltip = d3.select('svg').append('g')
+			.attr('id', 'tooltip')
+			.attr('transform', 'translate('+ x +','+ y +')');
+		rect = tooltip.append('rect')
 			.attr('class', 'hllabel')
+			.attr('width', textWidth + 30)
+			.attr('height', 50)
+			.attr('dx', 0).attr('dy', 0);
+		label = tooltip.append('text')
+			.attr('class', 'hllabel')
+			.attr('dx', 20).attr('dy', 33)
 			.text(getLabelForId(idparts[1]));
+		textWidth = label.node().getComputedTextLength();
+		rect.attr('width', textWidth + 40);
 	}
 
 }

@@ -31,7 +31,11 @@
 		margin-bottom: 2em;
 	}
 	#wordcloud {
-		margin-top: 2em;
+		min-height: 250px;
+	}
+	#wordcloudinner {
+		padding-top: 2em;
+		padding-bottom: 2em;
 	}
 	#wordcloudinner a {
 		word-wrap: normal;
@@ -69,6 +73,55 @@
 	#modalbody h3 {
 		font-size: 15pt;
 		line-height: 19pt;
+	}
+	#resultstable {
+		display: none;
+	}
+	#resultstable table {
+		width: 400px;
+	}
+	#resultstable th, #resultstable td {
+		text-align: left;
+		padding: 5px 15px 5px 5px;
+	}
+	#resultstable tbody tr:hover, #resultstable tr.hl {
+		background-color: #fde1e6;
+	}
+	#resultstable tbody td {
+		text-align: left;
+		padding: 4px 15px 4px 5px;
+	}
+	#resultstable td.rank, #resultstable th.rank {
+		text-align: center;
+	}
+	#resultstable .bar div {
+		background-color: #FF295B;
+		opacity: 0.7;
+		height: 12px;
+		min-width: 1px;
+	}
+	#resultstable tfoot .bar div {
+		background-color: #FF295B;
+		opacity: 0.4;
+		height: 12px;
+		min-width: 1px;
+	}
+	#resultstable .avg {
+		color: #999;
+	}
+	#resultstable thead {
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+	}
+	#resultstable tfoot {
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+	}
+	#resultstable i {
+		opacity: 0.5;
+	}
+	.tt {
+		font-weight: 300;
 	}
 	</style>
 </head>
@@ -271,6 +324,43 @@
 				</div>
 
 				<div class="row" id="wordcloud"></div>
+
+				<div class="row" id="resultstable">
+					<table>
+						<thead>
+							<tr>
+								<th class="rank">Rang</th>
+								<th>Bundesland</th>
+								<th>Dichte <a href="#" class="tt" data-toggle="tooltip" title="Anzahl der zur Suche passenden Einträge im Gebiet geteilt durch die Anzahl aller Einträge im Gebiet."><i class="icon-info-sign"></i></a></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="rank">3</td>
+								<td class="tdlabel">Bayern</td>
+								<td class="val">0.00746646</td>
+							</tr><tr>
+								<td class="rank">1</td>
+								<td class="tdlabel">Berlin</td>
+								<td class="val">0.00045678</td>
+							</tr>
+							<tr>
+								<td class="rank">2</td>
+								<td class="tdlabel">Brandenburg</td>
+								<td class="val">0.00346646</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr class="avg">
+								<td></td>
+								<td class="tdlabel">Mittelwert</td>
+								<td class="val">0.00045678</td>
+								<td class="bar"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 

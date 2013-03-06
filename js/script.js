@@ -7,6 +7,10 @@ var currentHighlight = null;
 // search result data
 var resultData = null;
 
+// highlighting an item in the map Timeout
+var highlightMapTimeout;
+var highlightMapId;
+
 (function(window,undefined){
 
     // Prepare
@@ -51,6 +55,13 @@ $(document).ready(function(){
 
 	// Mouse-handler für Tooltip
 	d3.select('svg').on('mousemove', mouseMoveHandler);
+
+	// Table tooltip
+	$('.tt').tooltip({
+		placement: 'top',
+		container: 'body'
+	});
+
 });
 
 var state_ids = {
@@ -158,7 +169,7 @@ function showWordCloud(data) {
  * @param data Result-Objekt von der API
  */
 function showStatesData(data) {
-	if (data.terms.length === 0) return;
+	/* map output */
 	var maxValue;
 	var useRelativeValues = true;
 	var maxSize;
@@ -197,11 +208,49 @@ function showStatesData(data) {
 				
 		}
 	});
-	
+
+	/* table output */
+	$('#resultstable tbody').empty();
+	if (data.terms.length === 0) {
+		$('#resultstable').hide();
+	} else {
+		$('#resultstable').show();
+	}
+	var el, sum, num, avg;
+	sum = 0;
+	num = 0;
+	data.terms.sort(function(a,b){
+		return b.density - a.density;
+	});
+	$.each(data.terms, function(i, term){
+		el = $(document.createElement('tr'));
+		el.attr('class', term.state_id);
+		el.attr('data-toggle', 'tooltip');
+		el.attr('title', 'Treffer: ' + numberFormat(term.count) + ', gesamt: ' + numberFormat(term.all));
+		el.append('<td class="rank">' + (num + 1) + '</td>');
+		el.append('<td class="tdlabel">'+ term.term+'</td>');
+		el.append('<td class="val"><span title="'+ term.density +'">'+ floatFormat(term.density) +'</span></td>');
+		el.append('<td class="bar"><div style="width: '+ Math.round(60 * (term.density / data.density_max))+'px"></div></td>');
+		$('#resultstable tbody').append(el);
+		el.tooltip({placement: 'right'});
+		el.mouseover(function(evt){
+			//console.log(evt);
+			highlightMapId = $(this).attr('class');
+			window.clearTimeout(highlightMapTimeout);
+			highlightMapTimeout = window.setTimeout(setCurrentHighlight, 80, highlightMapId, 'table');
+		});
+		sum += term.density;
+		num += 1;
+	});
+	avg = sum / num;
+	$('#resultstable tfoot .val').html('<span title="'+ avg +'">' + floatFormat(avg) + '</span>');
+	$('#resultstable tfoot .bar').html('<div style="width: '+ Math.round(60 * (avg / data.density_max)) +'px"></div>');
 }
 
+/**
+ * Show the number of hits matching the search query
+ */
 function showNumHits(data) {
-	//console.log(data);
 	var str = 'Einträge';
 	if (data == 1) {
 		str = 'Eintrag';
@@ -229,6 +278,15 @@ function numberFormat(nStr) {
 	return x1 + x2;
 }
 
+function floatFormat(val) {
+	str = val.toFixed(5).toString();
+	parts = str.split('.');
+	return parts[0] + ',' + parts[1];
+}
+
+/**
+ * Read a certain URL parameter from the current URL
+ */
 function getURLParam(name) {
 	//name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 	var regexS = "[\\?&]" + name + "=([^&#]*)";
@@ -258,12 +316,16 @@ function mouseMoveHandler() {
 		//console.log(circle.attr('id'), dist);
 		if (dist < maxDist && dist < nearestDist) {
 			nearestDist = dist;
-			nearestId = circle.attr('id');
+			nearestId = circle.attr('id').split('x5F_')[1];
 		}
 	});
 	//console.log('mouse:', mpos, 'nearest:', nearestId, 'distance:', nearestDist);
 	if (nearestId != currentHighlight) {
-		setCurrentHighlight(nearestId);
+		if (nearestId) {
+			setCurrentHighlight(nearestId, 'map');
+		} else {
+			setCurrentHighlight(null, 'map');
+		}
 	}
 	
 }
@@ -279,24 +341,29 @@ function distance(x1, y1, x2, y2) {
 /**
  * Set currently highlighted circle to the given ID.
  * If id is null, highlight is turned off.
+ *
+ * @param   String   hlid    id of the state to be highlighted, e.g. "th"
+ * @param   String   source  From where the highlight has been initiated. Used
+ *                           to prevent infinite highlighting loops. Can be "map"
+ *                           or "table" currently.
  */
-function setCurrentHighlight(hlid) {
+function setCurrentHighlight(hlid, source) {
 	//console.log('setCurrentHighlight called with id', hlid);
 	// reset currently highlighted circle
 	if (currentHighlight) {
-		d3.select('#' + currentHighlight).transition().attr('opacity', '0.7');
+		d3.select('#circle_x5F_' + currentHighlight).transition().attr('opacity', '0.7');
 	}
 	// set the global var
 	currentHighlight = hlid;
 	if (currentHighlight === null) {
 		d3.select('svg g#tooltip').remove();
+		$('#resultstable tr').removeClass('hl');
 		return;
 	}
 	// highlight circle and draw stuff
-	var hl = d3.select('#' + currentHighlight);
+	var hl = d3.select('#circle_x5F_' + currentHighlight);
 	hl.transition().attr('opacity', '1.0');
 	// flag position
-	var idparts = currentHighlight.split('x5F_');
 	var x = hl.attr('cx');
 	var y = hl.attr('cy');
 	var r = hl.attr('r');
@@ -308,7 +375,7 @@ function setCurrentHighlight(hlid) {
 	if (tooltip[0][0]) {
 		// already exists
 		label = tooltip.select('text.hllabel');
-		label.text(getLabelForId(idparts[1]));
+		label.text(getLabelForId(hlid));
 		textWidth = label.node().getComputedTextLength();
 		rect.attr('width', textWidth + 50);
 		// move to new position
@@ -328,11 +395,16 @@ function setCurrentHighlight(hlid) {
 		label = tooltip.append('text')
 			.attr('class', 'hllabel')
 			.attr('dx', 20).attr('dy', 33)
-			.text(getLabelForId(idparts[1]));
+			.text(getLabelForId(hlid));
 		textWidth = label.node().getComputedTextLength();
 		rect.attr('width', textWidth + 40);
 	}
-
+	// propagate
+	if (source == 'map') {
+		// propagate highlight to table
+		$('#resultstable tr').removeClass('hl');
+		$('#resultstable tr.' + hlid).addClass('hl');
+	}
 }
 
 /**
@@ -360,4 +432,3 @@ function getLabelForId(idstr) {
 	}
 	return name + ': ' + value;
 }
-

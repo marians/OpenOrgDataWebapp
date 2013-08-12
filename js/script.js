@@ -96,7 +96,7 @@ function submitSearch(q) {
 			$('#q').val(q);
 			_gaq.push(['_trackEvent', 'Search', 'SearchInput', q]);
 		}
-		var url = 'http://openorgdata.sendung.de/api/';
+		var url = '/api/';
 		var settings = {
 			data: {
 				q: q
